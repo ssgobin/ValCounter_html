@@ -74,6 +74,21 @@
             color: #bbb;
         }
     </style>
+    <script>
+        // Função para salvar acesso no Local Storage
+        function salvarAcesso() {
+            localStorage.setItem('visitou', 'true');
+            console.log("Acesso salvo no Local Storage:", localStorage.getItem('visitou'));
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            if (!localStorage.getItem('visitou')) {
+                salvarAcesso();
+            } else {
+                console.log("Usuário já acessou antes.");
+            }
+        });
+    </script>
 </head>
 <body>
     <header>
@@ -114,6 +129,7 @@
         <h2>Entre em Contato</h2>
         <p>Se você tiver dúvidas ou sugestões, sinta-se à vontade para nos contatar:</p>
         <p>Email: <a href="mailto:dev.ssgobin@gmail.com" style="color: #61dafb;">dev.ssgobin@gmail.com</a></p>
+        <p>Discord: <a href="https://discord.gg/kmyv5nykt8" style="color: #61dafb;">Suporte ValCounter</p></a>
     </section>
 
     <footer>
