@@ -74,26 +74,12 @@
             color: #bbb;
         }
     </style>
-    <script>
-        // Função para salvar acesso no Local Storage
-        function salvarAcesso() {
-            localStorage.setItem('visitou', 'true');
-            console.log("Acesso salvo no Local Storage:", localStorage.getItem('visitou'));
-        }
-
-        document.addEventListener("DOMContentLoaded", function() {
-            if (!localStorage.getItem('visitou')) {
-                salvarAcesso();
-            } else {
-                console.log("Usuário já acessou antes.");
-            }
-        });
-    </script>
+    <link rel="icon" type="image/x-icon" href="icon.png">
 </head>
 <body>
     <header>
         <nav>
-            <a href="main.html">Início</a>
+            <a href="index.html">Início</a>
             <a href="help.html">Ajuda</a>
             <a href="commands.html">Comandos</a>
         </nav>
