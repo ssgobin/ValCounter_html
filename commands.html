@@ -10,7 +10,7 @@
             background: #282c34;
             color: white;
             text-align: center;
-            padding: 50px 20px; /* Adicionado padding lateral para telas pequenas */
+            padding: 50px;
         }
         header {
             background-color: #0c0c0c; /* Cor de fundo do cabeçalho */
@@ -27,7 +27,6 @@
             justify-content: center; /* Centraliza os links */
             gap: 30px; /* Espaço maior entre os links */
             font-size: 18px; /* Tamanho da fonte dos links */
-            flex-wrap: wrap; /* Permite que os links quebrem em linhas em telas menores */
         }
         nav a {
             color: #ffffff; /* Cor do texto dos links */
@@ -41,42 +40,37 @@
             background-color: rgba(0, 0, 0, 0.1); /* Efeito de hover com cor de fundo */
             color: #5c0000; /* Altera a cor do texto no hover */
         }
-        h1, h2 {
-            margin: 20px 0; /* Espaçamento entre títulos e outros elementos */
-        }
-        ul {
-            list-style: none; /* Remove os marcadores da lista */
-            padding: 0; /* Remove o padding da lista */
-            margin: 0; /* Remove a margem da lista */
-        }
-        li {
-            margin: 10px 0; /* Espaçamento entre os itens da lista */
-        }
-        code {
-            background: rgba(255, 255, 255, 0.1); /* Fundo para o código */
-            padding: 2px 4px; /* Espaçamento dentro do código */
-            border-radius: 3px; /* Cantos arredondados para o código */
-        }
     </style>
 
-    <link rel="icon" type="image/x-icon" href="icon.png">
 </head>
 <body>
     <header>
         <nav>
-            <a href="index.html">Início</a>
+            <a href="main.html">Início</a>
             <a href="help.html">Ajuda</a>
             <a href="commands.html">Comandos</a>
+            <a id="editMsg" style="display: none;" href="edit.html">Editar</a>
         </nav>
+        <p id="userLogin"></p>
     </header>
+    <script>
+        const userLogin = localStorage.getItem('channelName');
+        if(userLogin == localStorage.getItem('channelName') && userLogin != null){
+            document.getElementById('userLogin').textContent = 'Logado como: ' + userLogin;
+            document.getElementById('editMsg').style.display = 'block';
+        } else if(userLogin == null) {
+            document.getElementById('userLogin').textContent = 'Não está logado!';
+            document.getElementById('editMsg').style.display = 'none';
+        }
+    </script>
     
     <h1>Comandos do Bot</h1>
     
     <h2>Comandos disponíveis:</h2>
     <ul>
-        <li><strong>!vitoria</strong> - Use este comando para registrar uma vitória. Exemplo: <code>!vitoria</code></li>
-        <li><strong>!derrota</strong> - Use este comando para registrar uma derrota. Exemplo: <code>!derrota</code></li>
-        <li><strong>!registrar</strong> - Use este comando para registrar seu canal e permitir que o bot funcione corretamente (apenas Moderadores). Exemplo: <code>!registrar</code></li>
+        <ul><strong>!vitoria</strong> - Use este comando para registrar uma vitória. Exemplo: <code>!vitoria</code></ul>
+        <ul><strong>!derrota</strong> - Use este comando para registrar uma derrota. Exemplo: <code>!derrota</code></ul>
+        <ul><strong>!registrar</strong> - Use este comando para registrar seu canal e permitir que o bot funcione corretamente (apenas Moderadores). Exemplo: <code>!registrar</code></ul>
     </ul>
     
     <h2>Instruções:</h2>
