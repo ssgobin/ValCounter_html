@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Mensagens do Bot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #282c34;
+            color: white;
+            text-align: center;
+            padding: 50px;
+        }
+        textarea {
+            padding: 10px;
+            margin: 10px 0;
+            width: 300px;
+            height: 100px;
+            resize: none; /* Impede o redimensionamento do textarea */
+            border-radius: 5px; /* Bordas arredondadas */
+            border: none; /* Remove a borda padrão */
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #61dafb;
+            border: none;
+            color: black;
+            cursor: pointer;
+            border-radius: 5px; /* Bordas arredondadas para o botão */
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        header {
+            background-color: #0c0c0c; /* Cor de fundo do cabeçalho */
+            padding: 20px 0; /* Espaçamento em cima e embaixo */
+            position: sticky; /* Fixa o cabeçalho no topo */
+            top: 0; /* Fixa a posição */
+            width: 100%; /* Largura total */
+            z-index: 1000; /* Garante que o cabeçalho fique acima do conteúdo */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra para um efeito de elevação */
+            border-radius: 5px;
+        }
+        nav {
+            display: flex; /* Exibe os links em linha */
+            justify-content: center; /* Centraliza os links */
+            gap: 30px; /* Espaço maior entre os links */
+            font-size: 18px; /* Tamanho da fonte dos links */
+        }
+        nav a {
+            color: #ffffff; /* Cor do texto dos links */
+            text-decoration: none; /* Remove o sublinhado */
+            font-weight: bold; /* Deixa o texto em negrito */
+            padding: 10px 15px; /* Espaçamento dentro dos links */
+            border-radius: 5px; /* Arredonda os cantos */
+            transition: background-color 0.3s, color 0.3s; /* Animações suaves ao passar o mouse */
+        }
+        nav a:hover {
+            background-color: rgba(0, 0, 0, 0.1); /* Efeito de hover com cor de fundo */
+            color: #5c0000; /* Altera a cor do texto no hover */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="main.html">Início</a>
+            <a href="help.html">Ajuda</a>
+            <a href="commands.html">Comandos</a>
+            <a id="editMsg" style="display: none;" href="edit.html">Editar</a>
+        </nav>
+        <p id="userLogin"></p>
+    </header>
+    <script>
+        const userLogin = localStorage.getItem('channelName');
+        if(userLogin == localStorage.getItem('channelName') && userLogin != null){
+            document.getElementById('userLogin').textContent = 'Logado como: ' + userLogin;
+            document.getElementById('editMsg').style.display = 'block';
+        } else if(userLogin == null) {
+            document.getElementById('userLogin').textContent = 'Não está logado!';
+            document.getElementById('editMsg').style.display = 'none';
+        }
+    </script>
+    <div id="main">
+        <h1>Editar Mensagens do Bot</h1>
+        <h2>Mensagem de Vitória</h2>
+        <h3>Lembre-se que a mensagem sempre começará com o nome do streamer (ex: NomeDoStreamer ganhou uma partida). Você editará só o que vem depois do nome do streamer</h3>
+        <textarea id="victoryMessage" placeholder="Digite a mensagem de vitória aqui..."></textarea>
+        
+        <h2>Mensagem de Derrota</h2>
+        <textarea id="defeatMessage" placeholder="Digite a mensagem de derrota aqui..."></textarea>
+        <br>
+        <br>
+        <button id="saveButton">Salvar Mensagens</button>
+        <br>
+        <p id="responseMessage"></p>
+    </div>
+
+    <script type="module">
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-analytics.js";
+
+        // Configuração do Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyD3D-DrYHPQjikWZrnar5bEuAsv1RNM114",
+            authDomain: "valocounter-e7a99.firebaseapp.com",
+            databaseURL: "https://valocounter-e7a99-default-rtdb.firebaseio.com",
+            projectId: "valocounter-e7a99",
+            storageBucket: "valocounter-e7a99.appspot.com",
+            messagingSenderId: "293961036850",
+            appId: "1:293961036850:web:ff73cbd0c39e6f225f382b",
+            measurementId: "G-TRV7VR5M96"
+        };
+
+        // Inicializa Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const firestore = getFirestore(app);
+
+        // Função para salvar as mensagens no Local Storage (ou em um banco de dados)
+        async function saveMessages() {
+            const victoryMessage = document.getElementById('victoryMessage').value.trim();
+            const defeatMessage = document.getElementById('defeatMessage').value.trim();
+            const responseMessage = document.getElementById('responseMessage');
+
+            // Verifica se as mensagens estão vazias
+            if (!victoryMessage || !defeatMessage) {
+                responseMessage.textContent = 'Por favor, preencha ambas as mensagens.';
+                return;
+            }
+
+            // Aqui você pode implementar a lógica para salvar as mensagens em um banco de dados ou arquivo
+            try {
+                // Simulação de salvamento de mensagens (substitua pela lógica real)
+                const channelName = localStorage.getItem('channelName');
+
+                await setDoc(doc(firestore, 'channels', channelName), {
+                    name: channelName,
+                    winMessage: victoryMessage,
+                    defeatMessage: defeatMessage
+                });
+
+                
+                responseMessage.textContent = 'Mensagens salvas com sucesso!';
+                console.log('Mensagens salvas:', { victoryMessage, defeatMessage });
+                
+                // Limpa os campos
+                document.getElementById('victoryMessage').value = '';
+                document.getElementById('defeatMessage').value = '';
+            } catch (error) {
+                console.error('Erro ao salvar mensagens:', error);
+                responseMessage.textContent = 'Erro ao salvar mensagens.';
+            }
+        }
+
+        // Adiciona um ouvinte de evento para o botão
+        document.getElementById('saveButton').addEventListener('click', saveMessages);
+    </script>
+</body>
+</html>
