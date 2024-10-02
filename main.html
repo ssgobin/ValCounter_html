@@ -3,172 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adicionar Canal do Twitch</title>
+    <title>ValCounter - Página Inicial</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             background: #282c34;
             color: white;
             text-align: center;
-            padding: 50px;
-        }
-        input[type="text"] {
-            padding: 10px;
-            margin: 10px 0;
-            width: 300px;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #61dafb;
-            border: none;
-            color: black;
-            cursor: pointer;
-        }
-        button:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
+            padding: 20px;
         }
         header {
-        background-color: #0c0c0c; /* Cor de fundo do cabeçalho */
-        padding: 20px 0; /* Espaçamento em cima e embaixo */
-        position: sticky; /* Fixa o cabeçalho no topo */
-        top: 0; /* Fixa a posição */
-        width: 100%; /* Largura total */
-        z-index: 1000; /* Garante que o cabeçalho fique acima do conteúdo */
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra para um efeito de elevação */
-        border-radius: 5px;
+            background-color: #0c0c0c;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
         }
         nav {
-            display: flex; /* Exibe os links em linha */
-            justify-content: center; /* Centraliza os links */
-            gap: 30px; /* Espaço maior entre os links */
-            font-size: 18px; /* Tamanho da fonte dos links */
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            font-size: 18px;
         }
         nav a {
-            color: #ffffff; /* Cor do texto dos links */
-            text-decoration: none; /* Remove o sublinhado */
-            font-weight: bold; /* Deixa o texto em negrito */
-            padding: 10px 15px; /* Espaçamento dentro dos links */
-            border-radius: 5px; /* Arredonda os cantos */
-            transition: background-color 0.3s, color 0.3s; /* Animações suaves ao passar o mouse */
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
         }
         nav a:hover {
-            background-color: rgba(0, 0, 0, 0.1); /* Efeito de hover com cor de fundo */
-            color: #5c0000; /* Altera a cor do texto no hover */
+            background-color: rgba(0, 0, 0, 0.1);
+            color: #5c0000;
+        }
+        h1 {
+            margin: 20px 0;
+            font-size: 36px;
+        }
+        h2 {
+            margin: 15px 0;
+            font-size: 28px;
+        }
+        section {
+            margin: 40px 0;
+        }
+        .card {
+            background-color: #3a3f47;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+        .contact {
+            margin-top: 50px;
+        }
+        .add-channel {
+            margin: 40px 0;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #5c0000;
+            color: rgb(255, 255, 255);
+        }
+        footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #bbb;
         }
     </style>
-    <link rel="icon" type="image/x-icon" href="icon.png">
 </head>
 <body>
     <header>
         <nav>
-            <a href="index.html">Início</a>
+            <a href="main.html">Início</a>
             <a href="help.html">Ajuda</a>
             <a href="commands.html">Comandos</a>
+            <a id="editMsg" style="display: none;" href="edit.html">Editar</a>
         </nav>
+        <p id="userLogin"></p>
     </header>
-    <div id="main">
-        <h1>Adicionar Canal do Twitch</h1>
-        <input type="text" id="channelName" placeholder="Nome do Canal" required>
-        <button id="addButton">Adicionar Canal</button>
-        <p id="responseMessage"></p>
-    </div>
-
-    <h1 id="alreadyAdd" style="display: none;">Você já adicionou um canal!</h1>
-
     <script>
-        // Verifica se o usuário já acessou a página
-        function checkAccess() {
-            const visitou = localStorage.getItem('visitou');
-            if (visitou === 'true') {
-                // Oculta a seção principal e exibe a mensagem
-                document.getElementById('main').style.display = 'none';
-                document.getElementById('alreadyAdd').style.display = 'block';
-            } else {
-                // Salva no Local Storage que o usuário acessou
-                localStorage.setItem('visitou', 'true');
-            }
+        const userLogin = localStorage.getItem('channelName');
+        if(userLogin == localStorage.getItem('channelName') && userLogin != null){
+            document.getElementById('userLogin').textContent = 'Logado como: ' + userLogin;
+            document.getElementById('editMsg').style.display = 'block';
+        } else if(userLogin == null) {
+            document.getElementById('userLogin').textContent = 'Não está logado!';
+            document.getElementById('editMsg').style.display = 'none';
         }
-
-        // Chama a função checkAccess quando a página é carregada
-        window.onload = checkAccess;
-
     </script>
+    
+    <h1>Bem-vindo ao ValCounter!</h1>
+    <h2>Seu bot para Twitch</h2>
 
-    <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
-        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-analytics.js";
+    <section>
+        <div class="card">
+            <h2>O que é o ValCounter?</h2>
+            <p>O ValCounter é um bot criado para ajudar streamers a gerenciar suas vitórias e derrotas em jogos.</p>
+        </div>
 
-        // Configuração do Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyD3D-DrYHPQjikWZrnar5bEuAsv1RNM114",
-            authDomain: "valocounter-e7a99.firebaseapp.com",
-            databaseURL: "https://valocounter-e7a99-default-rtdb.firebaseio.com",
-            projectId: "valocounter-e7a99",
-            storageBucket: "valocounter-e7a99.appspot.com",
-            messagingSenderId: "293961036850",
-            appId: "1:293961036850:web:ff73cbd0c39e6f225f382b",
-            measurementId: "G-TRV7VR5M96"
-        };
+        <div class="card">
+            <h2>Principais Funcionalidades</h2>
+            <ul>
+                <li>Registro de vitórias e derrotas com comandos simples.</li>
+                <li>Feedback imediato no chat sobre os resultados.</li>
+                <li>Interface amigável e fácil de usar.</li>
+                <li>Possibilidade de personalização e ajustes.</li>
+            </ul>
+        </div>
+    </section>
 
-        // Inicializa Firebase
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
-        const firestore = getFirestore(app);
+    <section class="add-channel">
+        <h2>Adicionar Canal ao ValCounter</h2>
+        <p>Para adicionar seu canal ao ValCounter, clique no botão abaixo:</p>
+        <a href="index.html" style="padding: 10px 20px; background-color: #0c0c0c; color: white; text-decoration: none; border-radius: 5px;">Adicionar Canal</a>
+    </section>
 
-        // Função para adicionar um canal ao Firestore
-        async function addChannel() {
-            const channelName = document.getElementById('channelName').value.trim().toLowerCase();
-            const responseMessage = document.getElementById('responseMessage');
-            const addButton = document.getElementById('addButton');
+    <section class="contact">
+        <h2>Entre em Contato</h2>
+        <p>Se você tiver dúvidas ou sugestões, sinta-se à vontade para nos contatar:</p>
+        <p>Email: <a href="mailto:dev.ssgobin@gmail.com" style="color: #61dafb;">dev.ssgobin@gmail.com</a></p>
+    </section>
 
-            // Verifica se o campo de nome do canal está vazio ou contém caracteres inválidos
-            if (!channelName) {
-                responseMessage.textContent = 'Por favor, insira um nome de canal válido.';
-                return;
-            }
-            if (!/^[a-zA-Z0-9_]+$/.test(channelName)) {
-                responseMessage.textContent = 'O nome do canal deve conter apenas letras, números e underscores.';
-                return;
-            }
-
-            // Desabilita o botão durante o processamento
-            addButton.disabled = true;
-
-            try {
-                // Adiciona o canal ao Firestore
-                await setDoc(doc(firestore, 'channels', channelName), {
-                    name: channelName
-                });
-
-                localStorage.setItem('channelName', channelName);
-                
-                console.log('Canal adicionado:', channelName);
-                responseMessage.textContent = `Canal ${channelName} adicionado com sucesso!`;
-                document.getElementById('channelName').value = '';
-                
-                // Redireciona para "help.html"
-                window.location = "help.html";
-            } catch (error) {
-                console.error('Erro ao adicionar canal:', error);
-                responseMessage.textContent = 'Erro ao adicionar canal: ' + error.message;
-
-                // Exibe mensagem de erro genérica
-                if (error.code === 'permission-denied') {
-                    responseMessage.textContent = 'Você não tem permissão para adicionar este canal.';
-                } else {
-                    responseMessage.textContent = 'Erro inesperado: ' + error.message;
-                }
-            } finally {
-                // Reabilita o botão no final do processamento
-                addButton.disabled = false;
-            }
-        }
-
-        // Adiciona um ouvinte de evento para o botão
-        document.getElementById('addButton').addEventListener('click', addChannel);
-    </script>
+    <footer>
+        <p>&copy; 2024 ValCounter. Todos os direitos reservados.</p>
+    </footer>
 </body>
 </html>
