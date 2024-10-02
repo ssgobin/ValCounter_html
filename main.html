@@ -120,7 +120,7 @@
 
         // Função para adicionar um canal ao Firestore
         async function addChannel() {
-            const channelName = document.getElementById('channelName').value.trim();
+            const channelName = document.getElementById('channelName').value.trim().toLowerCase();
             const responseMessage = document.getElementById('responseMessage');
             const addButton = document.getElementById('addButton');
 
