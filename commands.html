@@ -10,7 +10,7 @@
             background: #282c34;
             color: white;
             text-align: center;
-            padding: 50px;
+            padding: 50px 20px; /* Adicionado padding lateral para telas pequenas */
         }
         header {
             background-color: #0c0c0c; /* Cor de fundo do cabeçalho */
@@ -27,6 +27,7 @@
             justify-content: center; /* Centraliza os links */
             gap: 30px; /* Espaço maior entre os links */
             font-size: 18px; /* Tamanho da fonte dos links */
+            flex-wrap: wrap; /* Permite que os links quebrem em linhas em telas menores */
         }
         nav a {
             color: #ffffff; /* Cor do texto dos links */
@@ -40,23 +41,25 @@
             background-color: rgba(0, 0, 0, 0.1); /* Efeito de hover com cor de fundo */
             color: #5c0000; /* Altera a cor do texto no hover */
         }
-    </style>
-    <script>
-        // Função para salvar acesso no Local Storage
-        function salvarAcesso() {
-            localStorage.setItem('visitou', 'true'); // Salva que o usuário visitou
-            console.log("Acesso salvo no Local Storage:", localStorage.getItem('visitou'));
+        h1, h2 {
+            margin: 20px 0; /* Espaçamento entre títulos e outros elementos */
         }
+        ul {
+            list-style: none; /* Remove os marcadores da lista */
+            padding: 0; /* Remove o padding da lista */
+            margin: 0; /* Remove a margem da lista */
+        }
+        li {
+            margin: 10px 0; /* Espaçamento entre os itens da lista */
+        }
+        code {
+            background: rgba(255, 255, 255, 0.1); /* Fundo para o código */
+            padding: 2px 4px; /* Espaçamento dentro do código */
+            border-radius: 3px; /* Cantos arredondados para o código */
+        }
+    </style>
 
-        // Evento DOMContentLoaded para garantir que o DOM esteja pronto
-        document.addEventListener("DOMContentLoaded", function() {
-            if (!localStorage.getItem('visitou')) { // Verifica se o acesso já foi salvo
-                salvarAcesso(); // Salva o acesso se não foi salvo antes
-            } else {
-                console.log("Usuário já acessou antes.");
-            }
-        });
-    </script>
+    <link rel="icon" type="image/x-icon" href="icon.png">
 </head>
 <body>
     <header>
@@ -71,9 +74,9 @@
     
     <h2>Comandos disponíveis:</h2>
     <ul>
-        <ul><strong>!vitoria</strong> - Use este comando para registrar uma vitória. Exemplo: <code>!vitoria</code></ul>
-        <ul><strong>!derrota</strong> - Use este comando para registrar uma derrota. Exemplo: <code>!derrota</code></ul>
-        <ul><strong>!registrar</strong> - Use este comando para registrar seu canal e permitir que o bot funcione corretamente (apenas Moderadores). Exemplo: <code>!registrar</code></ul>
+        <li><strong>!vitoria</strong> - Use este comando para registrar uma vitória. Exemplo: <code>!vitoria</code></li>
+        <li><strong>!derrota</strong> - Use este comando para registrar uma derrota. Exemplo: <code>!derrota</code></li>
+        <li><strong>!registrar</strong> - Use este comando para registrar seu canal e permitir que o bot funcione corretamente (apenas Moderadores). Exemplo: <code>!registrar</code></li>
     </ul>
     
     <h2>Instruções:</h2>
