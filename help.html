@@ -4,18 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adicionar Canal do Twitch</title>
+    <link rel="icon" type="image/x-icon" href="icon.png">
     <style>
         body {
             font-family: Arial, sans-serif;
             background: #282c34;
             color: white;
             text-align: center;
-            padding: 50px;
+            padding: 50px 20px; /* Padding lateral adicionado */
         }
         input[type="text"] {
             padding: 10px;
             margin: 10px 0;
-            width: 300px;
+            width: 100%; /* Largura total para responsividade */
+            max-width: 300px; /* Largura máxima */
         }
         button {
             padding: 10px 20px;
@@ -23,6 +25,7 @@
             border: none;
             color: black;
             cursor: pointer;
+            margin-top: 10px; /* Margem superior para espaçamento */
         }
         button:disabled {
             background-color: #ccc; /* Cor para o botão desabilitado */
@@ -30,20 +33,21 @@
         }
 
         header {
-        background-color: #0c0c0c; /* Cor de fundo do cabeçalho */
-        padding: 20px 0; /* Espaçamento em cima e embaixo */
-        position: sticky; /* Fixa o cabeçalho no topo */
-        top: 0; /* Fixa a posição */
-        width: 100%; /* Largura total */
-        z-index: 1000; /* Garante que o cabeçalho fique acima do conteúdo */
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra para um efeito de elevação */
-        border-radius: 5px;
+            background-color: #0c0c0c; /* Cor de fundo do cabeçalho */
+            padding: 20px 0; /* Espaçamento em cima e embaixo */
+            position: sticky; /* Fixa o cabeçalho no topo */
+            top: 0; /* Fixa a posição */
+            width: 100%; /* Largura total */
+            z-index: 1000; /* Garante que o cabeçalho fique acima do conteúdo */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra para um efeito de elevação */
+            border-radius: 5px;
         }
         nav {
             display: flex; /* Exibe os links em linha */
             justify-content: center; /* Centraliza os links */
             gap: 30px; /* Espaço maior entre os links */
             font-size: 18px; /* Tamanho da fonte dos links */
+            flex-wrap: wrap; /* Permite que os links quebrem em linhas em telas menores */
         }
         nav a {
             color: #ffffff; /* Cor do texto dos links */
@@ -57,24 +61,10 @@
             background-color: rgba(0, 0, 0, 0.1); /* Efeito de hover com cor de fundo */
             color: #5c0000; /* Altera a cor do texto no hover */
         }
-    </style>
-    <script>
-        // Função para salvar acesso no Local Storage
-        function salvarAcesso() {
-            localStorage.setItem('visitou', 'true'); // Salva que o usuário visitou
-            console.log("Acesso salvo no Local Storage:", localStorage.getItem('visitou'));
+        .overlay-link {
+            margin-top: 20px; /* Espaçamento superior para o link do overlay */
         }
-
-        // Evento DOMContentLoaded para garantir que o DOM esteja pronto
-        document.addEventListener("DOMContentLoaded", function() {
-            if (!localStorage.getItem('visitou')) { // Verifica se o acesso já foi salvo
-                salvarAcesso(); // Salva o acesso se não foi salvo antes
-            } else {
-                console.log("Usuário já acessou antes.");
-            }
-        });
-
-    </script>
+    </style>
 </head>
 <body>
     <header>
@@ -90,9 +80,9 @@
     <p>Logo após, utilize o comando "!registrar"</p>
     <p>Pronto! agora é só começar a usar o bot! Não se esqueça de adicionar o overlay para que funcione direitinho.</p>
     <p>Para ver a lista de comandos, basta acessar a página de comandos no cabeçalho da página.</p>
-     <!-- Link do overlay -->
-     <div class="overlay-link">
-        Link do Overlay: <a id="overlayLink" href="#" target="_blank" style=" color:#ffffff;"></a>
+    <!-- Link do overlay -->
+    <div class="overlay-link">
+        Link do Overlay: <a id="overlayLink" href="#" target="_blank" style="color: #ffffff;"></a>
     </div>
 
     <script>
