@@ -87,32 +87,33 @@
     <h1 id="alreadyAdd" style="display: none;">Você já adicionou um canal!</h1>
 
     <script>
-        // Verifica se o usuário já acessou a página
+        // Armazena no localStorage que o usuário já acessou a página
         function checkAccess() {
+            localStorage.setItem('visitou', 'true');
+        }
+    
+        function checkStorage() {
             const visitou = localStorage.getItem('visitou');
-            if (visitou === 'true') {
-                // Oculta a seção principal e exibe a mensagem
+            const nomeCanal = localStorage.getItem('channelName');
+    
+            // Log para verificar o estado atual de 'visitou' e 'channelName'
+            console.log('visitou:', visitou);
+            console.log('channelName:', nomeCanal);
+    
+            if (nomeCanal === null && nomeCanal === '' && nomeCanal !== nomeCanal) {
+                // Se 'channelName' está presente, remove a chave 'visitou'
+                console.log('Removendo a chave visitou...');
+                localStorage.clear();
+            } else if (visitou === 'true' && nomeCanal === null && nomeCanal === '') {
+                // Se o usuário já visitou, oculta a seção principal e exibe a mensagem
                 document.getElementById('main').style.display = 'none';
                 document.getElementById('alreadyAdd').style.display = 'block';
             } else {
-                // Salva no Local Storage que o usuário acessou
-                localStorage.setItem('visitou', 'true');
+                console.log('Nenhum canal encontrado e o usuário ainda não visitou.');
             }
         }
-
-        function checkStorage(){
-            const visitou = localStorage.getItem('visitou');
-            const nomeCanal = localStorage.getItem('channelName');
-
-            if (visitou === 'true') {
-                // Oculta a seção principal e exibe a mensagem
-                document.getElementById('main').style.display = 'none';
-                document.getElementById('alreadyAdd').style.display = 'block';
-            } else if (nomeCanal == '' || nomeCanal == null){
-                localStorage.removeItem('visitou');
-            }
-        }
-
+    
+        // Chama a função checkStorage quando a página carrega
         window.onload = checkStorage;
     </script>
 
