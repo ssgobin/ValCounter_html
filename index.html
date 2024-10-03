@@ -100,9 +100,6 @@
             }
         }
 
-        // Chama a função checkAccess quando a página é carregada
-        window.onload = checkAccess;
-
     </script>
 
     <script type="module">
@@ -179,6 +176,7 @@
 
         // Adiciona um ouvinte de evento para o botão
         document.getElementById('addButton').addEventListener('click', addChannel);
+        document.getElementById('addButton').addEventListener('click', checkAccess);
     </script>
 </body>
 </html>
