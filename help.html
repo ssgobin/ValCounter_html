@@ -1,6 +1,24 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+    <script>
+        // Verifica se o usuário já acessou a página
+        function checkAccess() {
+            const visitou = localStorage.getItem('visitou');
+            if (visitou === 'true') {
+                // Oculta a seção principal e exibe a mensagem
+                document.getElementById('main').style.display = 'none';
+                document.getElementById('alreadyAdd').style.display = 'block';
+            } else {
+                // Salva no Local Storage que o usuário acessou
+                localStorage.setItem('visitou', 'true');
+            }
+        }
+
+        // Chama a função checkAccess quando a página é carregada
+        window.onload = checkAccess;
+
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adicionar Canal do Twitch</title>
@@ -64,7 +82,7 @@
     <header>
         <nav>
             <a href="main.html">Início</a>
-            <a href="help.html">Ajuda</a>
+            <a id="editMsg" style="display: none;" href="help.html">Ajuda</a>
             <a href="commands.html">Comandos</a>
             <a id="editMsg" style="display: none;" href="edit.html">Editar</a>
         </nav>
