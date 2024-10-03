@@ -100,11 +100,11 @@
             console.log('visitou:', visitou);
             console.log('channelName:', nomeCanal);
     
-            if (nomeCanal === null && nomeCanal === '' && nomeCanal !== nomeCanal) {
-                // Se 'channelName' está presente, remove a chave 'visitou'
+            if (nomeCanal === null || nomeCanal === '') {
+                // Se 'nomeCanal' é nulo ou vazio, remove a chave 'visitou'
                 console.log('Removendo a chave visitou...');
                 localStorage.clear();
-            } else if (visitou === 'true' && nomeCanal === null && nomeCanal === '') {
+            } else if (visitou === 'true') {
                 // Se o usuário já visitou, oculta a seção principal e exibe a mensagem
                 document.getElementById('main').style.display = 'none';
                 document.getElementById('alreadyAdd').style.display = 'block';
