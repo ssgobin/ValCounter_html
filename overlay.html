@@ -27,21 +27,21 @@
             text-shadow:#000 2px -2px, #000 -2px 2px, #000 2px 2px, #000 -2px -2px;
         }
         @-webkit-keyframes pulse {
-        0% {
-            -webkit-transform: scale(1);
-        }
-        100% {
-            -webkit-transform: scale(1.1);
-        }
+            0% {
+                -webkit-transform: scale(1);
+            }
+            100% {
+                -webkit-transform: scale(1.1);
+            }
         }
 
         @keyframes pulse {
-        0% {
-            transform: scale(1);
-        }
-        100% {
-            transform: scale(1.1);
-        }
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1.1);
+            }
         }
         h1 {
             font-size: 2em;
@@ -52,7 +52,7 @@
     <script type="module">
         // Importa as funções necessárias do SDK
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
-        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+        import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
         // Configuração do Firebase
         const firebaseConfig = {
@@ -76,33 +76,31 @@
 
         console.log("Streamer:", user); // Log do nome do streamer
 
-        async function fetchData() {
-            try {
-                console.log("Fetching data for", user);
-                const docRef = doc(db, 'streamers', user); // Referência ao documento do streamer
-                const docSnap = await getDoc(docRef); // Obtém o documento
+        function fetchData() {
+            const docRef = doc(db, 'streamers', user); // Referência ao documento do streamer
 
-                if (!docSnap.exists()) {
-                    throw new Error("Documento não encontrado!");
+            // Escuta as alterações no documento
+            onSnapshot(docRef, (doc) => {
+                if (doc.exists()) {
+                    const data = doc.data(); // Obtém os dados do documento
+                    console.log("Dados recebidos:", data); // Log para verificar os dados recebidos
+                    
+                    // Atualiza o HTML com os dados
+                    document.getElementById('vitorias').innerText = data.vitorias || 0;
+                    document.getElementById('derrotas').innerText = data.derrotas || 0;
+                    console.log("Atualizando vitórias para:", data.vitorias || 0);
+                    console.log("Atualizando derrotas para:", data.derrotas || 0);
+                } else {
+                    console.error("Documento não encontrado!"); // Log se o documento não existe
+                    document.getElementById('contagem').innerText = "Erro ao carregar dados (o canal pode não estar registrado. Utilize !registrar no seu chat.";
                 }
-
-                const data = docSnap.data(); // Obtém os dados do documento
-                console.log("Dados recebidos:", data); // Log para verificar os dados recebidos
-                
-                // Atualiza o HTML com os dados
-                document.getElementById('vitorias').innerText = data.vitorias || 0;
-                document.getElementById('derrotas').innerText = data.derrotas || 0;
-                console.log("Atualizando vitórias para:", data.vitorias || 0);
-                console.log("Atualizando derrotas para:", data.derrotas || 0);
-                
-            } catch (error) {
+            }, (error) => {
                 console.error("Erro ao buscar dados:", error); // Log para erros no fetch
                 // Exibe um aviso se ocorrer um erro
                 document.getElementById('contagem').innerText = "Erro ao carregar dados (o canal pode não estar registrado. Utilize !registrar no seu chat.";
-            }
+            });
         }
 
-        setInterval(fetchData, 5000); // Atualiza a cada 5 segundos
         fetchData(); // Carrega os dados inicialmente
     </script>
 </head>
