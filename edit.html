@@ -67,7 +67,7 @@
     <header>
         <nav>
             <a href="main.html">Início</a>
-            <a href="help.html">Ajuda</a>
+            <a id="editMsg" style="display: none;"  href="help.html">Ajuda</a>
             <a href="commands.html">Comandos</a>
             <a id="editMsg" style="display: none;" href="edit.html">Editar</a>
         </nav>
@@ -87,6 +87,7 @@
         <h1>Editar Mensagens do Bot</h1>
         <h2>Mensagem de Vitória</h2>
         <h3>Lembre-se que a mensagem sempre começará com o nome do streamer (ex: NomeDoStreamer ganhou uma partida). Você editará só o que vem depois do nome do streamer</h3>
+        <h3>Se você deixar a caixa em branco, voltará para a mensagem padrão do bot.</h3>
         <textarea id="victoryMessage" placeholder="Digite a mensagem de vitória aqui..."></textarea>
         
         <h2>Mensagem de Derrota</h2>
@@ -128,13 +129,74 @@
             const responseMessage = document.getElementById('responseMessage');
 
             // Verifica se as mensagens estão vazias
-            if (!victoryMessage || !defeatMessage) {
-                responseMessage.textContent = 'Por favor, preencha ambas as mensagens.';
-                return;
-            }
+            if (!victoryMessage && defeatMessage) {
+                try {
+                    const channelName = localStorage.getItem('channelName');
 
-            // Aqui você pode implementar a lógica para salvar as mensagens em um banco de dados ou arquivo
-            try {
+                    await setDoc(doc(firestore, 'channels', channelName), {
+                        name: channelName,
+                        winMessage: 'ganhou uma partida',
+                        defeatMessage: defeatMessage
+                    });
+
+                    responseMessage.textContent = 'Mensagens salvas com sucesso!';
+                    console.log('Mensagens salvas:', { victoryMessage, defeatMessage });
+                    
+                    // Limpa os campos
+                    document.getElementById('victoryMessage').value = '';
+                    document.getElementById('defeatMessage').value = '';
+                }
+
+                catch (error){
+                    console.error('Erro ao salvar mensagens:', error);
+                    responseMessage.textContent = 'Erro ao salvar mensagens.';
+                }
+            } else if (!defeatMessage && victoryMessage){
+                try {
+                    const channelName = localStorage.getItem('channelName');
+
+                    await setDoc(doc(firestore, 'channels', channelName), {
+                        name: channelName,
+                        winMessage: victoryMessage,
+                        defeatMessage: 'perdeu uma partida'
+                    });
+
+                    responseMessage.textContent = 'Mensagens salvas com sucesso!';
+                    console.log('Mensagens salvas:', { victoryMessage, defeatMessage });
+                    
+                    // Limpa os campos
+                    document.getElementById('victoryMessage').value = '';
+                    document.getElementById('defeatMessage').value = '';
+                }
+
+                catch (error){
+                    console.error('Erro ao salvar mensagens:', error);
+                    responseMessage.textContent = 'Erro ao salvar mensagens.';
+                }
+            } else if (!defeatMessage && !victoryMessage){
+                try {
+                    const channelName = localStorage.getItem('channelName');
+
+                    await setDoc(doc(firestore, 'channels', channelName), {
+                        name: channelName,
+                        winMessage: 'ganhou uma partida',
+                        defeatMessage: 'perdeu uma partida'
+                    });
+
+                    responseMessage.textContent = 'Mensagens salvas com sucesso!';
+                    console.log('Mensagens salvas:', { victoryMessage, defeatMessage });
+                    
+                    // Limpa os campos
+                    document.getElementById('victoryMessage').value = '';
+                    document.getElementById('defeatMessage').value = '';
+                }
+
+                catch (error){
+                    console.error('Erro ao salvar mensagens:', error);
+                    responseMessage.textContent = 'Erro ao salvar mensagens.';
+                }
+            } else if (victoryMessage && defeatMessage){
+                try {
                 // Simulação de salvamento de mensagens (substitua pela lógica real)
                 const channelName = localStorage.getItem('channelName');
 
@@ -154,6 +216,7 @@
             } catch (error) {
                 console.error('Erro ao salvar mensagens:', error);
                 responseMessage.textContent = 'Erro ao salvar mensagens.';
+            }
             }
         }
 
