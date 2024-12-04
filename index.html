@@ -23,7 +23,7 @@
         }
         button {
             padding: 10px 20px;
-            background-color: rgb(255, 255, 255);
+            background-color: #d400ff;
             border: none;
             color: black;
             cursor: pointer;
@@ -33,14 +33,14 @@
             cursor: not-allowed;
         }
         header {
-        background-color: #0c0c0c; /* Cor de fundo do cabeçalho */
-        padding: 20px 0; /* Espaçamento em cima e embaixo */
-        position: sticky; /* Fixa o cabeçalho no topo */
-        top: 0; /* Fixa a posição */
-        width: 100%; /* Largura total */
-        z-index: 1000; /* Garante que o cabeçalho fique acima do conteúdo */
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra para um efeito de elevação */
-        border-radius: 5px;
+            background-color: #0c0c0c; /* Cor de fundo do cabeçalho */
+            padding: 20px 0; /* Espaçamento em cima e embaixo */
+            position: sticky; /* Fixa o cabeçalho no topo */
+            top: 0; /* Fixa a posição */
+            width: 100%; /* Largura total */
+            z-index: 1000; /* Garante que o cabeçalho fique acima do conteúdo */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra para um efeito de elevação */
+            border-radius: 5px;
         }
         nav {
             display: flex; /* Exibe os links em linha */
@@ -84,6 +84,7 @@
     <div id="main">
         <h1>Adicionar Canal do Twitch</h1>
         <input type="text" id="channelName" placeholder="Nome do Canal" required>
+        <br>
         <button id="addButton">Adicionar Canal</button>
         <p id="responseMessage"></p>
     </div>
