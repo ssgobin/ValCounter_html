@@ -3,56 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Protest+Strike&display=swap" rel="stylesheet">   
     <title>Overlay de Vitórias e Derrotas</title>
     <style>
-        * {
-            font-family: 'Protest Strike';
-        }
         body { 
-            background: rgba(0, 0, 0, 0.5); 
-            color: white; 
+            font-family: 'Arial', sans-serif; 
+            background-color: transparent; /* Fundo transparente */
+            color: #ffffff; /* Texto branco */
             text-align: center; 
             padding: 20px; 
-            border-radius: 8px; 
-        }
-        #contagem {
-            font-size: 3em;
-            animation: pulse 0.7s infinite;
-            animation-direction: alternate;
-            -webkit-animation-name: pulse;
-            animation-name: pulse;
-            text-shadow:#000 2px -2px, #000 -2px 2px, #000 2px 2px, #000 -2px -2px;
-        }
-        @-webkit-keyframes pulse {
-            0% {
-                -webkit-transform: scale(1);
-            }
-            100% {
-                -webkit-transform: scale(1.1);
-            }
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
 
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-            100% {
-                transform: scale(1.1);
-            }
-        }
         h1 {
-            font-size: 2em;
+            font-size: 2.5rem; /* Tamanho maior para o título */
             margin-bottom: 20px;
+            color: #ffffff; /* Branco puro para o título */
+        }
+
+        #contagem {
+            font-size: 2rem; /* Destaque para os números */
+            background-color: rgba(0, 0, 0, 0.7); /* Fundo semi-transparente */
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5); /* Sombra suave */
+        }
+
+        span {
+            font-weight: bold; /* Realce nos números */
+            color: #4caf50; /* Verde suave para vitórias */
+        }
+
+        #derrotas {
+            color: #f44336; /* Vermelho suave para derrotas */
         }
     </style>
     <!-- Inclua o Firebase SDK -->
     <script type="module">
         // Importa as funções necessárias do SDK
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
-        import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
 
         // Configuração do Firebase
         const firebaseConfig = {
@@ -76,31 +70,33 @@
 
         console.log("Streamer:", user); // Log do nome do streamer
 
-        function fetchData() {
-            const docRef = doc(db, 'streamers', user); // Referência ao documento do streamer
+        async function fetchData() {
+            try {
+                console.log("Fetching data for", user);
+                const docRef = doc(db, 'streamers', user); // Referência ao documento do streamer
+                const docSnap = await getDoc(docRef); // Obtém o documento
 
-            // Escuta as alterações no documento
-            onSnapshot(docRef, (doc) => {
-                if (doc.exists()) {
-                    const data = doc.data(); // Obtém os dados do documento
-                    console.log("Dados recebidos:", data); // Log para verificar os dados recebidos
-                    
-                    // Atualiza o HTML com os dados
-                    document.getElementById('vitorias').innerText = data.vitorias || 0;
-                    document.getElementById('derrotas').innerText = data.derrotas || 0;
-                    console.log("Atualizando vitórias para:", data.vitorias || 0);
-                    console.log("Atualizando derrotas para:", data.derrotas || 0);
-                } else {
-                    console.error("Documento não encontrado!"); // Log se o documento não existe
-                    document.getElementById('contagem').innerText = "Erro ao carregar dados (o canal pode não estar registrado. Utilize !registrar no seu chat.";
+                if (!docSnap.exists()) {
+                    throw new Error("Documento não encontrado!");
                 }
-            }, (error) => {
+
+                const data = docSnap.data(); // Obtém os dados do documento
+                console.log("Dados recebidos:", data); // Log para verificar os dados recebidos
+                
+                // Atualiza o HTML com os dados
+                document.getElementById('vitorias').innerText = data.vitorias || 0;
+                document.getElementById('derrotas').innerText = data.derrotas || 0;
+                console.log("Atualizando vitórias para:", data.vitorias || 0);
+                console.log("Atualizando derrotas para:", data.derrotas || 0);
+                
+            } catch (error) {
                 console.error("Erro ao buscar dados:", error); // Log para erros no fetch
                 // Exibe um aviso se ocorrer um erro
-                document.getElementById('contagem').innerText = "Erro ao carregar dados (o canal pode não estar registrado. Utilize !registrar no seu chat.";
-            });
+                document.getElementById('contagem').innerText = "Erro ao carregar dados";
+            }
         }
 
+        setInterval(fetchData, 5000); // Atualiza a cada 5 segundos
         fetchData(); // Carrega os dados inicialmente
     </script>
 </head>
